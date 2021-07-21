@@ -10,17 +10,17 @@ import pandas as pd
 from azureml.core.run import Run
 from azureml.data.dataset_factory import TabularDatasetFactory
 
-# TODO: Create TabularDataset using TabularDatasetFactory
 # Data is located at:
 # "https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
 
-ds = ### YOUR CODE HERE ###
+
+#https://docs.microsoft.com/pt-br/python/api/azureml-core/azureml.data.dataset_factory.tabulardatasetfactory?view=azure-ml-py#from-delimited-files-path--validate-true--include-path-false--infer-column-types-true--set-column-types-none--separator------header-true--partition-format-none--support-multi-line-false--empty-as-string-false--encoding--utf8--
+ds = TabularDatasetFactory.from_delimited_files(path="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv")
 
 x, y = clean_data(ds)
 
-# TODO: Split data into train and test sets.
-
-### YOUR CODE HERE ###a
+#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+x_train, x_test, y_train, y_test = train_test_split(x,y)
 
 run = Run.get_context()
 
