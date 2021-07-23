@@ -14,15 +14,7 @@ from azureml.data.dataset_factory import TabularDatasetFactory
 # "https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
 
 
-#https://docs.microsoft.com/pt-br/python/api/azureml-core/azureml.data.dataset_factory.tabulardatasetfactory?view=azure-ml-py#from-delimited-files-path--validate-true--include-path-false--infer-column-types-true--set-column-types-none--separator------header-true--partition-format-none--support-multi-line-false--empty-as-string-false--encoding--utf8--
-ds = TabularDatasetFactory.from_delimited_files(path="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv")
-
-x, y = clean_data(ds)
-
-#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
-x_train, x_test, y_train, y_test = train_test_split(x,y)
-
-run = Run.get_context()
+# https://docs.microsoft.com/pt-br/python/api/azureml-core/azureml.data.dataset_factory.tabulardatasetfactory?view=azure-ml-py#from-delimited-files-path--validate-true--include-path-false--infer-column-types-true--set-column-types-none--separator------header-true--partition-format-none--support-multi-line-false--empty-as-string-false--encoding--utf8--
 
 def clean_data(data):
     # Dict for cleaning data
@@ -50,6 +42,17 @@ def clean_data(data):
 
     y_df = x_df.pop("y").apply(lambda s: 1 if s == "yes" else 0)
     
+    return x_df, y_df
+
+
+ds = TabularDatasetFactory.from_delimited_files(path="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv")
+
+x, y = clean_data(ds)
+
+#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+x_train, x_test, y_train, y_test = train_test_split(x,y)
+
+run = Run.get_context()
 
 def main():
     # Add arguments to script
@@ -64,9 +67,16 @@ def main():
     run.log("Max iterations:", np.int(args.max_iter))
 
     model = LogisticRegression(C=args.C, max_iter=args.max_iter).fit(x_train, y_train)
-
+    
     accuracy = model.score(x_test, y_test)
     run.log("Accuracy", np.float(accuracy))
+    
+    #Save model for further reference
+    model_name = "model_lr_" + str(args.C) + "_" + str(args.max_iter) + ".pkl"
+    filename = "outputs/" + model_name
+    
+    joblib.dump(value=model, filename=filename)
+    run.upload_file(name=model_name, path_or_stream=filename)
 
 if __name__ == '__main__':
     main()
