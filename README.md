@@ -1,6 +1,6 @@
 # Optimizing an ML Pipeline in Azure
 
-### Lucas Oliveira
+### Author: Lucas Oliveira
 
 ## Overview
 This project is part of the Udacity Azure ML Nanodegree.
