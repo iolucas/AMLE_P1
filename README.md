@@ -60,7 +60,7 @@ Here it justs loads the data and give it to the AutoML search for models and hyp
 The final accuracy result of the VotingEnsemble model found by AutoML was **0.9170**.
 
 ## Pipeline comparison
-The accuracy of the two models were very similar, with a small advantage to the model found using Azure AutoML. The architecure of the AutoML setup was also much simpler since it did not required us to clean the data, choose a model and select search parameters. AutoML does all of this automatically giving a very similar result, however this come with the cost of more computing time.
+The accuracy of the two models were very similar, with a small advantage to the model found using Azure AutoML. Although the performance gain was small, the model found by AutoML was much bigger, being composed of seven different classifiers. Despite that, the process of using AutoML was much simpler since it did not required us to clean the data, choose a model and select search parameters. AutoML does all of this automatically giving a very similar result, however this come with the cost of more computing time.
 
 ## Future work
 In order to improve our model search we can do a few things:
