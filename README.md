@@ -55,6 +55,8 @@ Azure AutoML also generated a feature importance graph:
 
 From the graph we can see that the two most important features for the classification were the **duration** and **nr.employed**, both after passing through the MeanImputer function from the data transformation step.
 
+AutoML also alerted us about the data not being balanced and recommend fixing it, since it can lead to a falsely perceived positive effect of a model's accuracy.
+
 Here it justs loads the data and give it to the AutoML search for models and hyperparameters that maximize the model's accuracy.
 
 The final accuracy result of the VotingEnsemble model found by AutoML was **0.9170**.
@@ -64,6 +66,7 @@ The accuracy of the two models were very similar, with a small advantage to the 
 
 ## Future work
 In order to improve our model search we can do a few things:
+- As alerted by the data guardrails, the model data is unbalanced and it should be fixed since it can lead to a biased model, which may be problematic;
 - Let AutoML and Hyperdrive run for longer period of times so they can search for better models that did not have the oportunity to be checked;
 - Use hyperdrive to try to find optimal parameters for other machine learning models. It may be the case that some different ML model, like a neural network, would be more suitable for the dataset we are working with, so exploring new models with the help of hyperdrive is a good way to find better models;
 - Try different configurations of hyperdrive, like varying the sampling method, sampling ranges of and early stopping policies. Doing this we can explore more regions from the hyperparameter space and potentially find new hyperparameters that will improve our model predictions;
